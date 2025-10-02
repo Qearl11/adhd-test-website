@@ -22,9 +22,9 @@
       // 测试题目数据
       const testData = {
         children: [
-          // 注意力不集中症状 (1-9)
+          // SNAP-IV 注意力不集中症状 (1-9)
           {
-            text: "孩子在学习、工作或其他活动中，经常无法注意到细节或因粗心而犯错",
+            text: "经常在学习、工作或其他活动中不注意细节或因粗心大意而出错",
             type: "inattention",
             options: [
               { text: "从不", value: 0 },
@@ -34,7 +34,7 @@
             ],
           },
           {
-            text: "孩子在做功课或游戏时，经常难以保持注意力",
+            text: "在任务或游戏活动中经常难以保持注意",
             type: "inattention",
             options: [
               { text: "从不", value: 0 },
@@ -44,7 +44,7 @@
             ],
           },
           {
-            text: "别人对孩子说话时，孩子经常看起来没在听",
+            text: "别人和他说话时，经常显得没有在听",
             type: "inattention",
             options: [
               { text: "从不", value: 0 },
@@ -54,7 +54,7 @@
             ],
           },
           {
-            text: "孩子经常不能按照指令完成功课、家务或工作职责",
+            text: "经常不按指示完成学校作业、家务或工作职责（不是由于对立行为或不理解指示）",
             type: "inattention",
             options: [
               { text: "从不", value: 0 },
@@ -64,7 +64,7 @@
             ],
           },
           {
-            text: "孩子经常在组织任务和活动方面有困难",
+            text: "经常难以组织任务和活动",
             type: "inattention",
             options: [
               { text: "从不", value: 0 },
@@ -74,7 +74,7 @@
             ],
           },
           {
-            text: "孩子经常回避、不喜欢或不愿意参加需要持续精神努力的任务",
+            text: "经常回避、不喜欢或不愿从事需要持续动脑的任务（如学校作业或家庭作业）",
             type: "inattention",
             options: [
               { text: "从不", value: 0 },
@@ -84,7 +84,7 @@
             ],
           },
           {
-            text: "孩子经常遗失任务或活动所需的物品",
+            text: "经常遗失任务或活动所需的东西（如玩具、学校作业、铅笔、书或工具）",
             type: "inattention",
             options: [
               { text: "从不", value: 0 },
@@ -94,7 +94,7 @@
             ],
           },
           {
-            text: "孩子经常容易被外界刺激分散注意力",
+            text: "经常容易被外在刺激转移注意力",
             type: "inattention",
             options: [
               { text: "从不", value: 0 },
@@ -104,7 +104,7 @@
             ],
           },
           {
-            text: "孩子在日常活动中经常健忘",
+            text: "在日常活动中经常健忘",
             type: "inattention",
             options: [
               { text: "从不", value: 0 },
@@ -113,9 +113,9 @@
               { text: "总是", value: 3 },
             ],
           },
-          // 多动冲动症状 (10-18)
+          // SNAP-IV 多动-冲动症状 (10-18)
           {
-            text: "孩子经常手脚动个不停或在座位上扭来扭去",
+            text: "经常手脚动个不停或坐着时扭来扭去",
             type: "hyperactivity",
             options: [
               { text: "从不", value: 0 },
@@ -125,7 +125,7 @@
             ],
           },
           {
-            text: "在需要保持坐着的场合，孩子经常离开座位",
+            text: "在应该坐着的场合经常离开座位",
             type: "hyperactivity",
             options: [
               { text: "从不", value: 0 },
@@ -135,7 +135,7 @@
             ],
           },
           {
-            text: "孩子经常在不适当的场合跑来跑去或爬上爬下",
+            text: "经常在不合适的场合跑来跑去或爬高爬低（在青少年或成人可能只是坐立不安的感觉）",
             type: "hyperactivity",
             options: [
               { text: "从不", value: 0 },
@@ -145,7 +145,7 @@
             ],
           },
           {
-            text: "孩子经常无法安静地参加游戏或休闲活动",
+            text: "经常无法安静地参与游戏或休闲活动",
             type: "hyperactivity",
             options: [
               { text: "从不", value: 0 },
@@ -155,7 +155,7 @@
             ],
           },
           {
-            text: "孩子经常处于活跃状态，好像'有马达在推动'",
+            text: "经常'忙个不停'或'像装了发动机似的'行动",
             type: "hyperactivity",
             options: [
               { text: "从不", value: 0 },
@@ -165,7 +165,7 @@
             ],
           },
           {
-            text: "孩子经常话太多",
+            text: "经常说话过多",
             type: "hyperactivity",
             options: [
               { text: "从不", value: 0 },
@@ -175,7 +175,7 @@
             ],
           },
           {
-            text: "问题还没说完，孩子经常脱口说出答案",
+            text: "经常在问题没说完时就抢着回答",
             type: "hyperactivity",
             options: [
               { text: "从不", value: 0 },
@@ -185,7 +185,7 @@
             ],
           },
           {
-            text: "孩子经常无法等待轮到自己",
+            text: "经常难以等候轮流",
             type: "hyperactivity",
             options: [
               { text: "从不", value: 0 },
@@ -195,7 +195,7 @@
             ],
           },
           {
-            text: "孩子经常打断或干扰别人的活动",
+            text: "经常打断或干扰别人（如插嘴或打断别人的游戏）",
             type: "hyperactivity",
             options: [
               { text: "从不", value: 0 },
@@ -538,7 +538,7 @@
                     <h3>儿童版</h3>
                     <p>适用年龄：6-18岁</p>
                     <p className="card-description">
-                      基于ADHD-RS量表，包含18个核心症状评估项目
+                      基于SNAP-IV量表，包含18个DSM-5标准ADHD症状评估项目
                     </p>
                     <button className="btn-primary">开始测试</button>
                   </div>
@@ -828,19 +828,44 @@
 
         if (testType === "children") {
           if (total <= 18) {
+            if (testType === "children") {
+          // SNAP-IV标准：注意力不集中或多动-冲动得分≥12分（相当于6个症状×2分）提示阳性
+          const { inattention, hyperactivity } = scores;
+          const hasInattentionSymptoms = inattention >= 12;
+          const hasHyperactivitySymptoms = hyperactivity >= 12;
+          
+          if (!hasInattentionSymptoms && !hasHyperactivitySymptoms) {
             return {
               level: "低风险",
               description:
-                "当前症状表现较轻微，ADHD的可能性较低。孩子的注意力和行为控制能力基本正常。",
+                "根据SNAP-IV评估标准，当前症状表现不显著，ADHD的可能性较低。孩子的注意力和行为控制能力基本正常。",
               recommendations: `
                             <ul>
                                 <li>继续保持良好的学习和生活习惯</li>
                                 <li>适当增加体育锻炼和户外活动</li>
                                 <li>建立规律的作息时间</li>
                                 <li>鼓励孩子参与需要专注的活动，如阅读、拼图等</li>
+                                <li>定期关注孩子的学习和行为表现</li>
                             </ul>
                         `,
             };
+          } else if (hasInattentionSymptoms || hasHyperactivitySymptoms) {
+            return {
+              level: "高风险",
+              description:
+                `根据SNAP-IV评估标准，检测到显著的ADHD症状。${hasInattentionSymptoms ? '注意力不集中症状明显' : ''}${hasInattentionSymptoms && hasHyperactivitySymptoms ? '，' : ''}${hasHyperactivitySymptoms ? '多动-冲动症状明显' : ''}。强烈建议咨询专业医生进行进一步评估。`,
+              recommendations: `
+                            <ul>
+                                <li><strong>请尽快咨询儿童精神科医生或发育行为科医生</strong></li>
+                                <li>准备详细的症状记录和学校反馈</li>
+                                <li>考虑进行全面的ADHD诊断评估</li>
+                                <li>收集来自多个环境（家庭、学校）的行为观察</li>
+                                <li>了解学校的特殊教育资源和支持服务</li>
+                                <li>建立结构化的日常routine和行为管理策略</li>
+                            </ul>
+                        `,
+            };
+          }
           } else if (total <= 36) {
             return {
               level: "中等风险",
@@ -990,47 +1015,36 @@
 
         let analysis = [];
 
-        // 症状类型分析
-        if (inattention > hyperactivity) {
-          const diff = inattention - hyperactivity;
-          if (diff >= 6) {
-            analysis.push(
-              `<span class="highlight">注意力不集中</span>是主要表现，${testSubject}更多地表现为难以集中注意力、容易分心、健忘等问题。`
-            );
-          } else {
-            analysis.push(
-              `${testSubject}的注意力问题和多动冲动问题都有所表现，但<span class="highlight">注意力不集中</span>稍微突出一些。`
-            );
-          }
-        } else if (hyperactivity > inattention) {
-          const diff = hyperactivity - inattention;
-          if (diff >= 6) {
-            analysis.push(
-              `<span class="highlight">多动冲动</span>是主要表现，${testSubject}更多地表现为坐立不安、冲动行为、难以安静等问题。`
-            );
-          } else {
-            analysis.push(
-              `${testSubject}的注意力问题和多动冲动问题都有所表现，但<span class="highlight">多动冲动</span>稍微突出一些。`
-            );
-          }
+        // 基于SNAP-IV标准的症状类型分析
+        const inattentionThreshold = testType === "children" ? 12 : 16; // 儿童6症状×2分，成人8症状×2分
+        const hyperactivityThreshold = testType === "children" ? 12 : 16;
+        
+        const hasInattentionSymptoms = inattention >= inattentionThreshold;
+        const hasHyperactivitySymptoms = hyperactivity >= hyperactivityThreshold;
+
+        if (hasInattentionSymptoms && hasHyperactivitySymptoms) {
+          analysis.push(
+            `根据SNAP-IV评估，${testSubject}同时表现出<span class="highlight">注意力不集中</span>和<span class="highlight">多动-冲动</span>症状，符合ADHD混合型的特征。`
+          );
+        } else if (hasInattentionSymptoms) {
+          analysis.push(
+            `根据SNAP-IV评估，${testSubject}主要表现为<span class="highlight">注意力不集中型</span>ADHD症状，包括难以集中注意力、容易分心、健忘等问题。`
+          );
+        } else if (hasHyperactivitySymptoms) {
+          analysis.push(
+            `根据SNAP-IV评估，${testSubject}主要表现为<span class="highlight">多动-冲动型</span>ADHD症状，包括坐立不安、冲动行为、难以安静等问题。`
+          );
         } else {
           analysis.push(
-            `${testSubject}在注意力不集中和多动冲动两方面的表现<span class="highlight">相对均衡</span>，两类症状并存。`
+            `根据SNAP-IV评估，${testSubject}的症状尚未达到ADHD诊断阈值，但仍需要<span class="highlight">持续观察</span>。`
           );
         }
 
-        // 严重程度分析
-        if (total >= (testType === "children" ? 42 : 60)) {
+        // 症状严重程度分析
+        if (hasInattentionSymptoms || hasHyperactivitySymptoms) {
+          const percentage = Math.round((total / (testType === "children" ? 54 : 72)) * 100);
           analysis.push(
-            `症状表现<span class="highlight">非常明显</span>，已经达到需要专业医疗干预的程度。`
-          );
-        } else if (total >= (testType === "children" ? 30 : 40)) {
-          analysis.push(
-            `症状表现<span class="highlight">比较明显</span>，建议寻求专业医生的评估和建议。`
-          );
-        } else if (total >= (testType === "children" ? 18 : 24)) {
-          analysis.push(
-            `症状表现<span class="highlight">轻度到中度</span>，需要关注并采取相应的管理措施。`
+            `症状严重程度为<span class="highlight">${percentage}%</span>，已达到需要专业评估的标准。建议进行全面的临床评估以确定诊断和制定治疗方案。`
           );
         } else {
           analysis.push(

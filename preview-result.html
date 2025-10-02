@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ADHD测试结果预览</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="page active">
+        <div class="result-header">
+          <button class="btn-back">← 重新测试</button>
+        </div>
+
+        <div class="result-content">
+          <div class="result-card">
+            <div class="result-score">
+              <div class="score-card">
+                <div class="score-label" style="font-size: 1.2rem !important">
+                  测试结果
+                </div>
+                <div class="score-main">
+                  <span class="current-score" style="font-size: 4rem !important"
+                    >42</span
+                  >
+                  <span
+                    class="score-separator"
+                    style="font-size: 3.2rem !important"
+                    >/</span
+                  >
+                  <span class="max-score" style="font-size: 3.2rem !important"
+                    >54</span
+                  >
+                </div>
+                <div class="score-percentage">78%</div>
+              </div>
+            </div>
+
+            <div class="result-level">
+              <h2 class="level-title">高风险</h2>
+              <p class="level-description">
+                症状表现明显，强烈建议尽快咨询专业医生进行进一步评估和诊断。
+              </p>
+            </div>
+
+            <div class="result-details">
+              <h3>详细分析</h3>
+
+              <div class="score-interpretation">
+                <h4>分数解读</h4>
+                <div class="interpretation-content">
+                  <p>
+                    <strong
+                      >您的总分为 42 分（满分 54 分），占总分的 78%</strong
+                    >
+                  </p>
+                  <div class="score-ranges">
+                    <div class="score-range">
+                      <span class="range">0-18分</span>
+                      <span class="level low-risk">低风险</span>
+                      <span class="desc">症状轻微，ADHD可能性较低</span>
+                    </div>
+                    <div class="score-range">
+                      <span class="range">19-36分</span>
+                      <span class="level medium-risk">中等风险</span>
+                      <span class="desc">存在明显症状，建议专业评估</span>
+                    </div>
+                    <div class="score-range current">
+                      <span class="range">37-54分</span>
+                      <span class="level high-risk">高风险</span>
+                      <span class="desc">症状显著，强烈建议就医</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="symptom-analysis">
+                <div class="symptom-category">
+                  <h4>注意力不集中症状</h4>
+                  <div class="symptom-score">
+                    <span class="score-display">24 / 27</span> 分
+                    <div class="score-bar">
+                      <div class="score-fill" style="width: 89%"></div>
+                    </div>
+                  </div>
+                  <div class="symptom-interpretation">
+                    得分
+                    89%，注意力问题较为严重，经常出现注意力不集中、容易分心的情况。
+                  </div>
+                </div>
+
+                <div class="symptom-category">
+                  <h4>多动冲动症状</h4>
+                  <div class="symptom-score">
+                    <span class="score-display">18 / 27</span> 分
+                    <div class="score-bar">
+                      <div class="score-fill" style="width: 67%"></div>
+                    </div>
+                  </div>
+                  <div class="symptom-interpretation">
+                    得分
+                    67%，存在轻到中度的冲动控制问题，有时可能表现出坐立不安或冲动行为。
+                  </div>
+                </div>
+              </div>
+
+              <div class="personalized-analysis">
+                <h4>个性化分析</h4>
+                <div class="personalized-content">
+                  <span class="highlight">注意力不集中</span
+                  >是主要表现，孩子更多地表现为难以集中注意力、容易分心、健忘等问题。<br /><br />
+                  症状表现<span class="highlight">非常明显</span
+                  >，已经达到需要专业医疗干预的程度。<br /><br />
+                  这些症状很可能已经对孩子的学习、社交或家庭生活造成了<span
+                    class="highlight"
+                    >显著影响</span
+                  >。
+                </div>
+              </div>
+
+              <div class="recommendations">
+                <h4>专业建议</h4>
+                <div class="recommendation-content">
+                  <ul>
+                    <li>
+                      <strong>请尽快咨询儿童精神科医生或发育行为科医生</strong>
+                    </li>
+                    <li>准备详细的症状记录和学校反馈</li>
+                    <li>考虑多学科评估（医生、心理师、教师联合评估）</li>
+                    <li>了解学校的特殊教育资源和支持服务</li>
+                    <li>学习ADHD相关知识，为可能的治疗做好准备</li>
+                    <li>保持耐心和理解，避免过度批评孩子</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="result-actions">
+              <button class="btn-primary">重新测试</button>
+              <button class="btn-secondary">保存结果</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // 添加按钮功能
+      document.addEventListener("DOMContentLoaded", function () {
+        // 重新测试按钮
+        const retakeButtons = document.querySelectorAll(
+          ".btn-primary, .btn-back"
+        );
+        retakeButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            // 跳转到React版本的测试页面
+            window.location.href = "react-version.html";
+          });
+        });
+
+        // 保存结果按钮
+        const saveButton = document.querySelector(".btn-secondary");
+        if (saveButton) {
+          saveButton.addEventListener("click", function () {
+            // 打印页面
+            window.print();
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
