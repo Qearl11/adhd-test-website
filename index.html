@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ADHD自测量表 - 专业版</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- 首页 -->
+      <div id="homepage" class="page active">
+        <div class="hero">
+          <div class="hero-content">
+            <h1 class="hero-title">ADHD自测量表</h1>
+            <p class="hero-subtitle">
+              基于国际标准医学量表，提供专业的ADHD初步筛查
+            </p>
+            <div class="disclaimer">
+              <p>
+                <strong>重要声明：</strong
+                >本测试仅用于初步筛查，不能替代专业医学诊断。如有疑虑，请咨询专业医生。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="test-selection">
+          <h2>请选择适合的测试版本</h2>
+          <div class="test-cards">
+            <div class="test-card" data-test="children">
+              <div class="card-icon">👶</div>
+              <h3>儿童版</h3>
+              <p>适用年龄：6-18岁</p>
+              <p class="card-description">
+                基于ADHD-RS量表，包含18个核心症状评估项目
+              </p>
+              <button class="btn-primary">开始测试</button>
+            </div>
+
+            <div class="test-card" data-test="adult">
+              <div class="card-icon">👤</div>
+              <h3>成人版</h3>
+              <p>适用年龄：18岁以上</p>
+              <p class="card-description">
+                基于成人ADHD自评量表(ASRS)，评估成年期ADHD症状
+              </p>
+              <button class="btn-primary">开始测试</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 测试页面 -->
+      <div id="testpage" class="page">
+        <div class="test-header">
+          <button id="backBtn" class="btn-back">← 返回首页</button>
+          <div class="progress-container">
+            <div class="progress-bar">
+              <div class="progress-fill"></div>
+            </div>
+            <span class="progress-text">1 / 18</span>
+          </div>
+        </div>
+
+        <div class="test-content">
+          <div class="question-card">
+            <div class="question-number">
+              问题 <span id="currentQuestion">1</span>
+            </div>
+            <h2 id="questionText" class="question-text"></h2>
+            <div id="answerOptions" class="answer-options">
+              <!-- 选项将通过JavaScript动态生成 -->
+            </div>
+          </div>
+
+          <div class="test-navigation">
+            <button id="prevBtn" class="btn-secondary" disabled>上一题</button>
+            <button id="nextBtn" class="btn-primary" disabled>下一题</button>
+            <button id="submitBtn" class="btn-primary" style="display: none">
+              查看结果
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 结果页面 -->
+      <div id="resultpage" class="page">
+        <div class="result-header">
+          <button id="resultBackBtn" class="btn-back">← 重新测试</button>
+        </div>
+
+        <div class="result-content">
+          <div class="result-card">
+            <div class="result-score">
+              <div class="score-card">
+                <div class="score-label">测试总分</div>
+                <div class="score-main">
+                  <span id="totalScore" class="current-score">0</span>
+                  <span class="score-separator">/</span>
+                  <span id="maxScoreDisplay" class="max-score">54</span>
+                </div>
+                <div id="scorePercentage" class="score-percentage">0%</div>
+              </div>
+            </div>
+
+            <div class="result-level">
+              <h2 id="resultLevel" class="level-title"></h2>
+              <p id="resultDescription" class="level-description"></p>
+            </div>
+
+            <div class="result-details">
+              <h3>详细分析</h3>
+
+              <!-- 分数段解读 -->
+              <div class="score-interpretation">
+                <h4>分数解读</h4>
+                <div
+                  id="scoreInterpretation"
+                  class="interpretation-content"
+                ></div>
+              </div>
+
+              <div class="symptom-analysis">
+                <div class="symptom-category">
+                  <h4>注意力不集中症状</h4>
+                  <div class="symptom-score">
+                    <span id="inattentionScore" class="score-display"
+                      >0 / 27</span
+                    >
+                    分
+                    <div class="score-bar">
+                      <div class="score-fill" id="inattentionBar"></div>
+                    </div>
+                  </div>
+                  <div
+                    id="inattentionInterpretation"
+                    class="symptom-interpretation"
+                  ></div>
+                </div>
+
+                <div class="symptom-category">
+                  <h4>多动冲动症状</h4>
+                  <div class="symptom-score">
+                    <span id="hyperactivityScore" class="score-display"
+                      >0 / 27</span
+                    >
+                    分
+                    <div class="score-bar">
+                      <div class="score-fill" id="hyperactivityBar"></div>
+                    </div>
+                  </div>
+                  <div
+                    id="hyperactivityInterpretation"
+                    class="symptom-interpretation"
+                  ></div>
+                </div>
+              </div>
+
+              <!-- 个性化分析 -->
+              <div class="personalized-analysis">
+                <h4>个性化分析</h4>
+                <div
+                  id="personalizedAnalysis"
+                  class="personalized-content"
+                ></div>
+              </div>
+
+              <div class="recommendations">
+                <h4>专业建议</h4>
+                <div
+                  id="recommendationText"
+                  class="recommendation-content"
+                ></div>
+              </div>
+            </div>
+
+            <div class="result-actions">
+              <button id="retakeBtn" class="btn-primary">重新测试</button>
+              <button id="printBtn" class="btn-secondary">保存结果</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

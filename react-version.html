@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADHD自测量表 - React版</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState } = React;
+        
+        // 测试题目数据 - SNAP-IV
+        const testData = {
+            children: [
+                // SNAP-IV 注意力不集中症状 (1-9)
+                {
+                    text: "经常在学习、工作或其他活动中不注意细节或因粗心大意而出错",
+                    type: "inattention",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "在任务或游戏活动中经常难以保持注意",
+                    type: "inattention",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "别人和他说话时，经常显得没有在听",
+                    type: "inattention",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "经常不按指示完成学校作业、家务或工作职责（不是由于对立行为或不理解指示）",
+                    type: "inattention",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "经常难以组织任务和活动",
+                    type: "inattention",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "经常回避、不喜欢或不愿从事需要持续动脑的任务（如学校作业或家庭作业）",
+                    type: "inattention",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "经常遗失任务或活动所需的东西（如玩具、学校作业、铅笔、书或工具）",
+                    type: "inattention",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "经常容易被外在刺激转移注意力",
+                    type: "inattention",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "在日常活动中经常健忘",
+                    type: "inattention",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                // SNAP-IV 多动-冲动症状 (10-18)
+                {
+                    text: "经常手脚动个不停或坐着时扭来扭去",
+                    type: "hyperactivity",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "在应该坐着的场合经常离开座位",
+                    type: "hyperactivity",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "经常在不合适的场合跑来跑去或爬高爬低（在青少年或成人可能只是坐立不安的感觉）",
+                    type: "hyperactivity",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "经常无法安静地参与游戏或休闲活动",
+                    type: "hyperactivity",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "经常'忙个不停'或'像装了发动机似的'行动",
+                    type: "hyperactivity",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "经常说话过多",
+                    type: "hyperactivity",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "经常在问题没说完时就抢着回答",
+                    type: "hyperactivity",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "经常难以等候轮流",
+                    type: "hyperactivity",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "经常打断或干扰别人（如插嘴或打断别人的游戏）",
+                    type: "hyperactivity",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                // SNAP-IV 对立违抗障碍症状 (19-26)
+                {
+                    text: "经常发脾气",
+                    type: "oppositional",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "经常与成人争论",
+                    type: "oppositional",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "经常主动违抗或拒绝遵守成人的要求或规则",
+                    type: "oppositional",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "经常故意惹恼他人",
+                    type: "oppositional",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "经常为自己的错误或不良行为责怪他人",
+                    type: "oppositional",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "经常易怒或容易被他人惹恼",
+                    type: "oppositional",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "经常愤怒和怨恨",
+                    type: "oppositional",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+                {
+                    text: "经常恶意或报复性强",
+                    type: "oppositional",
+                    options: [
+                        { text: "从不", value: 0 },
+                        { text: "偶尔", value: 1 },
+                        { text: "经常", value: 2 },
+                        { text: "总是", value: 3 },
+                    ],
+                },
+            ]
+        };
+        
+        function ADHDTestApp() {
+            const [currentPage, setCurrentPage] = useState('home');
+            const [testType, setTestType] = useState(null);
+            const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+            const [answers, setAnswers] = useState([]);
+            const [results, setResults] = useState(null);
+            
+            const questions = testType ? testData[testType] : [];
+            const totalQuestions = questions.length;
+            
+            const selectAnswer = (value) => {
+                const newAnswers = [...answers];
+                newAnswers[currentQuestionIndex] = parseInt(value);
+                setAnswers(newAnswers);
+            };
+            
+            const nextQuestion = () => {
+                if (currentQuestionIndex < totalQuestions - 1) {
+                    setCurrentQuestionIndex(currentQuestionIndex + 1);
+                } else {
+                    calculateResults();
+                }
+            };
+            
+            const previousQuestion = () => {
+                if (currentQuestionIndex > 0) {
+                    setCurrentQuestionIndex(currentQuestionIndex - 1);
+                }
+            };
+            
+            const calculateResults = () => {
+                let inattentionScore = 0;
+                let hyperactivityScore = 0;
+                let oppositionalScore = 0;
+                
+                questions.forEach((question, index) => {
+                    const score = answers[index] || 0;
+                    if (question.type === "inattention") {
+                        inattentionScore += score;
+                    } else if (question.type === "hyperactivity") {
+                        hyperactivityScore += score;
+                    } else if (question.type === "oppositional") {
+                        oppositionalScore += score;
+                    }
+                });
+                
+                const totalScore = inattentionScore + hyperactivityScore + oppositionalScore;
+                const adhdScore = inattentionScore + hyperactivityScore;
+                
+                setResults({
+                    total: totalScore,
+                    adhd: adhdScore,
+                    inattention: inattentionScore,
+                    hyperactivity: hyperactivityScore,
+                    oppositional: oppositionalScore,
+                    maxScore: totalQuestions * 3,
+                    maxAdhdScore: 18 * 3,
+                    maxInattentionScore: 9 * 3,
+                    maxHyperactivityScore: 9 * 3,
+                    maxOppositionalScore: 8 * 3,
+                });
+                setCurrentPage("results");
+            };
+            
+            const resetTest = () => {
+                setCurrentPage("home");
+                setTestType(null);
+                setCurrentQuestionIndex(0);
+                setAnswers([]);
+                setResults(null);
+            };
+            
+            const HomePage = () => (
+                <div className="page active">
+                    <div className="hero">
+                        <h1 className="hero-title">ADHD自测量表</h1>
+                        <p className="hero-subtitle">专业的注意力缺陷多动障碍评估工具</p>
+                        
+                        <div className="disclaimer">
+                            <p><strong>重要提醒：</strong>本测试仅供参考，不能替代专业医学诊断。如有疑虑，请咨询专业医生。</p>
+                        </div>
+                    </div>
+
+                    <div className="test-selection">
+                        <h2>请选择适合的测试版本</h2>
+                        <div className="test-cards">
+                            <div className="test-card" onClick={() => {setTestType('children'); setCurrentPage('test');}}>
+                                <div className="card-icon">👶</div>
+                                <h3>儿童版</h3>
+                                <p>适用年龄：6-18岁</p>
+                                <p className="card-description">
+                                    基于SNAP-IV量表，包含26个症状评估项目（18个ADHD+8个ODD）
+                                </p>
+                                <button className="btn-primary">开始测试</button>
+                            </div>
+
+                            <div className="test-card" onClick={() => {setTestType('adult'); setCurrentPage('test');}}>
+                                <div className="card-icon">👤</div>
+                                <h3>成人版</h3>
+                                <p>适用年龄：18岁以上</p>
+                                <p className="card-description">
+                                    基于成人ADHD自评量表(ASRS)，评估成年期ADHD症状
+                                </p>
+                                <button className="btn-primary">开始测试</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+            
+            const TestPage = () => {
+                const currentQuestion = questions[currentQuestionIndex];
+                const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+                
+                return (
+                    <div className="page active">
+                        <div className="test-header">
+                            <button className="btn-back" onClick={resetTest}>
+                                返回首页
+                            </button>
+                            <div className="progress-container">
+                                <div className="progress-bar">
+                                    <div className="progress-fill" style={{width: `${progress}%`}}></div>
+                                </div>
+                                <span className="progress-text">{currentQuestionIndex + 1}/{totalQuestions}</span>
+                            </div>
+                        </div>
+
+                        <div className="test-content">
+                            <div className="question-card">
+                                <div className="question-number">
+                                    问题 {currentQuestionIndex + 1} / {totalQuestions}
+                                </div>
+                                <h2 className="question-text">{currentQuestion.text}</h2>
+                                <div className="answer-options">
+                                    {currentQuestion.options.map((option, index) => (
+                                        <div 
+                                            key={index} 
+                                            className={`answer-option ${answers[currentQuestionIndex] === option.value ? 'selected' : ''}`}
+                                            onClick={() => selectAnswer(option.value)}
+                                        >
+                                            <input 
+                                                type="radio" 
+                                                name="answer" 
+                                                id={`option${index}`}
+                                                value={option.value}
+                                                checked={answers[currentQuestionIndex] === option.value}
+                                                onChange={() => selectAnswer(option.value)}
+                                            />
+                                            <label htmlFor={`option${index}`}>{option.text}</label>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            
+                            <div className="test-navigation">
+                                <button 
+                                    className="btn-secondary" 
+                                    onClick={previousQuestion}
+                                    disabled={currentQuestionIndex === 0}
+                                >
+                                    上一题
+                                </button>
+                                <button 
+                                    className="btn-primary" 
+                                    onClick={nextQuestion}
+                                    disabled={answers[currentQuestionIndex] === undefined}
+                                >
+                                    {currentQuestionIndex === totalQuestions - 1 ? '查看结果' : '下一题'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            };
+            
+            if (currentPage === 'home') {
+                return <HomePage />;
+            } else if (currentPage === 'test') {
+                return <TestPage />;
+            } else if (currentPage === 'results') {
+                return (
+                    <div className="page active">
+                        <div className="result-content">
+                            <div className="result-card">
+                                <div className="result-score">
+                                    <div className="score-card">
+                                        <div className="score-label">测试结果</div>
+                                        <div className="score-main">
+                                            <span className="current-score">{results.total}</span>
+                                            <span className="score-separator">/</span>
+                                            <span className="max-score">{results.maxScore}</span>
+                                        </div>
+                                        <div className="score-percentage">
+                                            {Math.round((results.total / results.maxScore) * 100)}%
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div className="symptom-analysis">
+                                    <h3>症状分析</h3>
+                                    <div className="symptom-category">
+                                        <h4>注意力不集中症状</h4>
+                                        <div className="symptom-score">
+                                            <span>{results.inattention}/{results.maxInattentionScore}</span>
+                                            <div className="score-bar">
+                                                <div className="score-fill" style={{width: `${(results.inattention/results.maxInattentionScore)*100}%`}}></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="symptom-category">
+                                        <h4>多动-冲动症状</h4>
+                                        <div className="symptom-score">
+                                            <span>{results.hyperactivity}/{results.maxHyperactivityScore}</span>
+                                            <div className="score-bar">
+                                                <div className="score-fill" style={{width: `${(results.hyperactivity/results.maxHyperactivityScore)*100}%`}}></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="symptom-category">
+                                        <h4>对立违抗症状</h4>
+                                        <div className="symptom-score">
+                                            <span>{results.oppositional}/{results.maxOppositionalScore}</span>
+                                            <div className="score-bar">
+                                                <div className="score-fill" style={{width: `${(results.oppositional/results.maxOppositionalScore)*100}%`}}></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div className="result-actions">
+                                    <button className="btn-secondary" onClick={resetTest}>
+                                        重新测试
+                                    </button>
+                                    <button className="btn-primary" onClick={() => window.print()}>
+                                        打印结果
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+            
+            return <HomePage />;
+        }
+        
+        // 渲染应用
+        ReactDOM.render(<ADHDTestApp />, document.getElementById('root'));
+    </script>
+</body>
+</html>
