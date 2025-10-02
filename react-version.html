@@ -7,6 +7,7 @@
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="styles.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
@@ -669,6 +670,122 @@
       }
 
       // 结果页面组件
+      // 雷达图组件
+      function RadarChart({ testType, results }) {
+        const chartRef = React.useRef(null);
+        const chartInstance = React.useRef(null);
+
+        React.useEffect(() => {
+          if (chartRef.current) {
+            // 销毁之前的图表实例
+            if (chartInstance.current) {
+              chartInstance.current.destroy();
+            }
+
+            const ctx = chartRef.current.getContext('2d');
+            
+            // 计算各维度数据
+            const { inattention, hyperactivity, maxInattentionScore, maxHyperactivityScore } = results;
+            
+            let data, labels;
+            
+            if (testType === 'children') {
+              // 儿童版：注意力不集中、多动冲动、执行功能、情绪调节、社交技能
+              const executiveScore = Math.round((inattention + hyperactivity) * 0.3); // 基于注意力和多动推算
+              const emotionalScore = Math.round(hyperactivity * 0.8); // 基于多动推算
+              const socialScore = Math.round((inattention + hyperactivity) * 0.25); // 基于整体症状推算
+              
+              labels = ['注意力集中', '冲动控制', '执行功能', '情绪调节', '社交技能'];
+              data = [
+                Math.round((1 - inattention / maxInattentionScore) * 100), // 反向计算，分数越高能力越强
+                Math.round((1 - hyperactivity / maxHyperactivityScore) * 100),
+                Math.max(0, 100 - executiveScore),
+                Math.max(0, 100 - emotionalScore),
+                Math.max(0, 100 - socialScore)
+              ];
+            } else {
+              // 成人版：注意力、多动性、冲动性、执行功能、时间管理
+              const executiveScore = Math.round((inattention + hyperactivity) * 0.35);
+              const timeManagementScore = Math.round(inattention * 0.9);
+              
+              labels = ['注意力集中', '活动控制', '冲动控制', '执行功能', '时间管理'];
+              data = [
+                Math.round((1 - inattention / maxInattentionScore) * 100),
+                Math.round((1 - hyperactivity / maxHyperactivityScore) * 100),
+                Math.round((1 - hyperactivity / maxHyperactivityScore) * 100),
+                Math.max(0, 100 - executiveScore),
+                Math.max(0, 100 - timeManagementScore)
+              ];
+            }
+
+            chartInstance.current = new Chart(ctx, {
+              type: 'radar',
+              data: {
+                labels: labels,
+                datasets: [{
+                  label: '能力水平',
+                  data: data,
+                  backgroundColor: 'rgba(79, 172, 254, 0.2)',
+                  borderColor: 'rgba(79, 172, 254, 1)',
+                  borderWidth: 2,
+                  pointBackgroundColor: 'rgba(79, 172, 254, 1)',
+                  pointBorderColor: '#fff',
+                  pointHoverBackgroundColor: '#fff',
+                  pointHoverBorderColor: 'rgba(79, 172, 254, 1)'
+                }]
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: {
+                    display: false
+                  }
+                },
+                scales: {
+                  r: {
+                    beginAtZero: true,
+                    max: 100,
+                    min: 0,
+                    ticks: {
+                      stepSize: 20,
+                      callback: function(value) {
+                        return value + '%';
+                      }
+                    },
+                    grid: {
+                      color: 'rgba(0, 0, 0, 0.1)'
+                    },
+                    angleLines: {
+                      color: 'rgba(0, 0, 0, 0.1)'
+                    },
+                    pointLabels: {
+                      font: {
+                        size: 12,
+                        family: 'Inter, sans-serif'
+                      },
+                      color: '#333'
+                    }
+                  }
+                }
+              }
+            });
+          }
+        }, [testType, results]);
+
+        return (
+          <div className="radar-chart-container">
+            <h4>能力分析雷达图</h4>
+            <div className="chart-wrapper">
+              <canvas ref={chartRef}></canvas>
+            </div>
+            <p className="chart-note">
+              * 图表显示各项能力的相对水平，数值越高表示该方面能力越强
+            </p>
+          </div>
+        );
+      }
+
       function ResultsPage({ testType, results, onRetakeTest }) {
         const {
           total,
@@ -782,6 +899,8 @@
                         </div>
                       </div>
                     </div>
+
+                    <RadarChart testType={testType} results={results} />
 
                     <div className="personalized-analysis">
                       <h4>个性化分析</h4>
