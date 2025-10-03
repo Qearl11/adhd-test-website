@@ -7,7 +7,7 @@
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <link rel="stylesheet" href="styles.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
@@ -731,21 +731,14 @@
         }
 
         React.useEffect(() => {
-          // 确保Chart.js已加载，添加延迟确保完全初始化
-          const initChart = () => {
-            if (!window.Chart) {
-              console.log("Chart.js not loaded yet, retrying...");
-              setTimeout(initChart, 100);
-              return;
-            }
+          const timer = setTimeout(() => {
+            if (window.Chart && chartRef.current) {
+              // 销毁之前的图表实例
+              if (chartInstance.current) {
+                chartInstance.current.destroy();
+              }
 
-            if (chartRef.current) {
-            // 销毁之前的图表实例
-            if (chartInstance.current) {
-              chartInstance.current.destroy();
-            }
-
-            const ctx = chartRef.current.getContext("2d");
+              const ctx = chartRef.current.getContext("2d");
 
             chartInstance.current = new Chart(ctx, {
               type: "radar",
@@ -821,9 +814,9 @@
               },
             });
             }
-          };
-          
-          initChart();
+          }, 500);
+
+          return () => clearTimeout(timer);
         }, [testType, results, labels, data]);
 
         return (
@@ -831,17 +824,6 @@
             <h4>能力分析雷达图</h4>
             <div className="chart-wrapper">
               <canvas ref={chartRef}></canvas>
-              {!window.Chart && (
-                <div
-                  style={{
-                    textAlign: "center",
-                    padding: "20px",
-                    color: "#666",
-                  }}
-                >
-                  正在加载图表组件...
-                </div>
-              )}
             </div>
 
             {/* 数据表格 */}
