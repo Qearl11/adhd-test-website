@@ -361,9 +361,9 @@ body {
 }
 
 .score-label {
-  font-size: 1.2rem !important;
+  font-size: 1.4rem !important;
   font-weight: 600;
-  color: #c6c7ff;
+  color: #7146dd;
   margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -778,7 +778,7 @@ body {
   }
 
   .score-label {
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     margin-bottom: 15px;
   }
 } /* 动画效果 */
@@ -821,8 +821,76 @@ body {
 
 .chart-wrapper {
   position: relative;
-  height: 350px;
+  height: 300px;
   margin: 20px 0;
+}
+
+/* 数据表格样式 */
+.chart-data-table {
+  margin-top: 25px;
+  overflow-x: auto;
+}
+
+.chart-data-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.chart-data-table th,
+.chart-data-table td {
+  padding: 12px 8px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.chart-data-table th {
+  background-color: #f7fafc;
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dimension-name {
+  font-weight: 500;
+  color: #4a5568;
+}
+
+.score-value {
+  font-weight: 600;
+  color: #2d3748;
+  text-align: center;
+}
+
+.status-indicator {
+  text-align: center;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-good {
+  background-color: #c6f6d5;
+  color: #22543d;
+}
+
+.status-medium {
+  background-color: #feebc8;
+  color: #c05621;
+}
+
+.status-low {
+  background-color: #fed7d7;
+  color: #c53030;
 }
 
 .chart-note {
