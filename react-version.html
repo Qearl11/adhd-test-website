@@ -731,6 +731,12 @@
         }
 
         React.useEffect(() => {
+          // 确保Chart.js已加载
+          if (!window.Chart) {
+            console.log('Chart.js not loaded yet');
+            return;
+          }
+          
           if (chartRef.current) {
             // 销毁之前的图表实例
             if (chartInstance.current) {
@@ -820,6 +826,11 @@
             <h4>能力分析雷达图</h4>
             <div className="chart-wrapper">
               <canvas ref={chartRef}></canvas>
+              {!window.Chart && (
+                <div style={{textAlign: 'center', padding: '20px', color: '#666'}}>
+                  正在加载图表组件...
+                </div>
+              )}
             </div>
 
             {/* 数据表格 */}
