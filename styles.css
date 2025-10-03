@@ -33,7 +33,7 @@ body {
 /* 首页样式 */
 .hero {
   text-align: center;
-  padding: 60px 20px;
+  padding: 60px 20px 20px 20px;
   color: #2d3748;
 }
 
@@ -70,12 +70,13 @@ body {
 }
 
 .test-selection {
-  padding: 40px 20px;
+  padding: 0px 20px 40px 20px;
 }
 
 .test-selection h2 {
   text-align: center;
-  margin-bottom: 40px;
+  margin-top: 10px;
+  margin-bottom: 20px;
   color: #2d3748;
   font-size: 2rem;
   font-weight: 600;
