@@ -421,8 +421,9 @@ body {
 .symptom-score .score-display {
   font-size: 1.2rem;
   font-weight: 600;
-  min-width: 100px;
+  min-width: 80px;
   color: #6366f1;
+  letter-spacing: -0.5px;
 }
 .result-level {
   text-align: center;
