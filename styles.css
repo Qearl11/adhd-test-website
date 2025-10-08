@@ -256,8 +256,25 @@ body {
   font-size: 1.5rem;
   font-weight: 600;
   line-height: 1.4;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   color: #2d3748;
+}
+
+.question-example {
+  background: rgba(113, 70, 221, 0.05);
+  border-left: 4px solid rgba(113, 70, 221, 0.3);
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #4a5568;
+}
+
+.example-label {
+  font-weight: 600;
+  color: #7146dd;
+  margin-right: 8px;
 }
 
 .answer-options {
