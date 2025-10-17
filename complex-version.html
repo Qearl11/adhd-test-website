@@ -700,10 +700,10 @@
                   <div className="info-card">
                     <h3>📊 四维度专业评估</h3>
                     <ul>
-                      <li>注意力与专注困难维度</li>
-                      <li>执行功能与组织能力维度</li>
-                      <li>冲动与多动倾向维度</li>
-                      <li>情绪与自我调节困难维度</li>
+                      <li>注意力与专注困难</li>
+                      <li>执行功能与组织能力</li>
+                      <li>冲动与多动倾向</li>
+                      <li>情绪与自我调节困难</li>
                     </ul>
                   </div>
 
@@ -884,9 +884,9 @@
           const data = {
             labels: [
               "注意力与专注困难",
-              "执行功能与组织能力",
+              "执行与组织困难",
               "冲动与多动倾向",
-              "情绪与自我调节困难",
+              "情绪调节困难",
             ],
             datasets: [
               {
@@ -977,7 +977,7 @@
               (results.inattention / results.maxInattentionScore) * 100,
           },
           {
-            name: "执行功能与组织能力",
+            name: "执行与组织困难",
             description: "计划组织能力、时间管理、任务切换灵活性",
             score: results.executive,
             maxScore: results.maxExecutiveScore,
@@ -995,7 +995,7 @@
               100,
           },
           {
-            name: "情绪与自我调节困难",
+            name: "情绪调节困难",
             description: "情绪管理能力、社交技能、自我认知与调节",
             score: results.emotional,
             maxScore: results.maxEmotionalScore,
@@ -1243,7 +1243,7 @@
             max: results.maxInattentionScore,
           },
           {
-            name: "执行功能与组织能力",
+            name: "执行与组织困难",
             score: results.executive,
             max: results.maxExecutiveScore,
           },
@@ -1253,7 +1253,7 @@
             max: results.maxHyperactivityScore + results.maxImpulsivityScore,
           },
           {
-            name: "情绪与自我调节困难",
+            name: "情绪调节困难",
             score: results.emotional,
             max: results.maxEmotionalScore,
           },
