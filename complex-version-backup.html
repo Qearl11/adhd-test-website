@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ADHD专业深度测评 - 60题复杂版</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="complex-styles.css" />
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+
+      // 测试数据
+      const testData = {
+        complex: [
+          {
+            text: "很难集中注意力完成工作、学校作业或其他活动",
+            example: "例如：容易分心，难以专注于任务",
+            type: "inattention",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我经常忘记他人的重要细节，比如生日或名字。",
+            example: "明明刚认识没多久，却总是记不住对方的名字或约定的日子。",
+            type: "inattention",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我经常在谈话中走神，感觉思绪飘到别的地方去了。",
+            example: "聊天时突然想到别的事，等回过神来已经错过对方的话。",
+            type: "inattention",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我依赖外部提醒（如闹钟、便签）来保持有条理。",
+            example: "如果不设置提醒，就很容易忘记要做的事或开会时间。",
+            type: "executive",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我经常开始新的项目，但很少能完成。",
+            example: "一开始充满热情，但没过多久就丢在一边不管了。",
+            type: "executive",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我难以安静、平和地参与活动。",
+            example: "即使是看书或看剧，也会时不时想起别的事或动来动去。",
+            type: "hyperactivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我在进行休闲活动时，很难安静下来，总觉得要动起来或做别的事。",
+            example: "放假休息时也控制不住想干点别的事情，不太能真正放松。",
+            type: "hyperactivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我因为自己认为的失败或错误而感到自卑。",
+            example: "犯了一点错就会反复责备自己，觉得自己不够好。",
+            type: "executive",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我总觉得必须保持忙碌或活跃。",
+            example: "即使没事做，也会主动找事做，不然就会焦虑。",
+            type: "hyperactivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我难以为任务排序，经常感到压力过大。",
+            example: "面对一堆待办事项时，不知道从哪开始，最后拖延不前。",
+            type: "executive",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我常常把重要的事拖到最后一刻才去做。",
+            example: "明知道要交报告或作业，却总要等到截止前才动手。",
+            type: "executive",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我的情绪波动经常与情境不成比例。",
+            example: "小事也容易激动、生气或沮丧。",
+            type: "impulsivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我常常在别人还没说完时就脱口而出回答或评论。",
+            example: "对方还没讲完，我就急着插话或打断。",
+            type: "impulsivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我经常反复回想社交场景，担心自己说错或做错了什么。",
+            example: '聚会结束后会一直想"我刚刚是不是说得不合适？"',
+            type: "executive",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我经常在别人说话或活动时打断他们。",
+            example: "聊天或开会中忍不住插话。",
+            type: "impulsivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我因为误会或冲突而难以维持长期的友谊。",
+            example: "别人觉得我情绪太多变或太冲动。",
+            type: "executive",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我常常低估完成任务所需时间，导致延误。",
+            example: "以为十分钟能做完，结果花了一个小时。",
+            type: "executive",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "即使知道不该，我也很难克制冲动或诱惑。",
+            example: "明知道该工作，却忍不住去刷短视频。",
+            type: "impulsivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我在讨论中难以等待合适的时机发言。",
+            example: "总忍不住想马上说出自己的想法。",
+            type: "impulsivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我经常在没完成一件事时就转去做另一件。",
+            example: "写作中突然想到别的点子，就立刻去干别的事。",
+            type: "inattention",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我难以有效地组织任务或活动。",
+            example: "要做的事很多，但缺乏计划，容易乱套。",
+            type: "executive",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我在工作或学习中常因不注意细节而犯粗心错误。",
+            example: "做题看漏条件、写报告时漏字或数值错误。",
+            type: "inattention",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我很容易被外部刺激分心。",
+            example: "一点声音、动静或手机提示就让我分神。",
+            type: "inattention",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我常常说话过多，即使场合不合适。",
+            example: "在严肃的会议上也会忍不住多说两句。",
+            type: "hyperactivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我在等待结果或回应时经常感到强烈的急躁感。",
+            example: "发消息后总是忍不住反复查看对方是否已读。",
+            type: "impulsivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我很难放松或长时间静坐。",
+            example: "看电影或坐公交时会不停换姿势或想走动。",
+            type: "hyperactivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我会回避或拖延需要长时间集中精力的任务。",
+            example: "写论文、做分析这种任务总是一拖再拖。",
+            type: "inattention",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我在集体活动或社交场合中难以保持专注。",
+            example: "别人聊天时，我容易分神或走神。",
+            type: "inattention",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我在情绪激动时难以找到让自己平静的方法。",
+            example: "生气或焦虑时会越想越烦，很难冷静下来。",
+            type: "impulsivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我在面对批评或反馈时容易变得防御。",
+            example: "别人一指出问题，我就觉得被否定、想解释。",
+            type: "impulsivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我难以察觉社交暗示，比如别人是否失去兴趣。",
+            example: "聊天时没发现对方其实已经不想聊了。",
+            type: "executive",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "别人直接和我说话时，我经常走神、难以集中注意。",
+            example: "对方讲了半天，最后问问题时我才发现没听进去。",
+            type: "inattention",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我难以控制突发的情绪爆发或反应。",
+            example: "突然情绪上来就冲动发火，事后又后悔。",
+            type: "impulsivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我在排队或小组讨论时很难等待轮到自己。",
+            example: "排队时总想往前挤或抱怨太慢。",
+            type: "impulsivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "由于沟通困难，我有时感到社交孤立或挫败。",
+            example: "想表达自己却常被误解，觉得没人懂我。",
+            type: "executive",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我有时会不顾后果地冲动行事。",
+            example: "一时冲动买了不需要的东西或说了后悔的话。",
+            type: "impulsivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我会经历强烈且难以控制的情绪。",
+            example: "一件小事也能让我非常激动或沮丧。",
+            type: "impulsivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我内心常常感到持续的不安或烦躁。",
+            example: "什么都没发生，却觉得心里一直不踏实。",
+            type: "hyperactivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我难以管理情绪，经常被挫败感或愤怒淹没。",
+            example: "遇到小问题就情绪爆发，之后很难平复。",
+            type: "impulsivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我难以按照指令完成任务或把项目坚持到底。",
+            example: "听完指示后开始做，却容易半途而废。",
+            type: "executive",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我难以有效分配时间，常导致错过截止日期。",
+            example: "时间估计不准，经常拖到最后才做完。",
+            type: "executive",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "在需要坐好的场合，我经常站起来走动。",
+            example: "上课或开会时，会情不自禁地起身活动。",
+            type: "hyperactivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我经常被要完成的大量任务压得喘不过气。",
+            example: "待办清单越来越长，不知道从哪下手。",
+            type: "executive",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我从挫折或负面经历中恢复得很慢。",
+            example: "一旦被批评或失败，会心情低落很久。",
+            type: "executive",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我觉得自己的冲动有时会让人际关系变得紧张。",
+            example: "情绪化地发脾气后，朋友或同事会疏远我。",
+            type: "impulsivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我经常感到烦躁或容易被激怒。",
+            example: "别人一点小举动都能让我情绪上来。",
+            type: "impulsivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我经常忘记约会、截止日期或其他责任。",
+            example: "明明有安排，但没记下来就完全忘记。",
+            type: "inattention",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "因为时间管理不好，我常觉得自己准备不足。",
+            example: "要汇报时才发现资料没整理好。",
+            type: "executive",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我常常感觉自己像被马达驱动一样停不下来。",
+            example: "总觉得该做点什么，很难真正休息。",
+            type: "hyperactivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我经常觉得自己说太多，占据了谈话主导。",
+            example: "聊着聊着发现几乎都是我在讲。",
+            type: "hyperactivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我坐着时总想动手动脚。",
+            example: "不自觉地抖腿、转笔、敲桌子。",
+            type: "hyperactivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我经常弄丢完成任务所需的物品（如钥匙、手机、文件）。",
+            example: "出门找不到钥匙或会议前找不到文件。",
+            type: "inattention",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我经常承担太多任务或责任。",
+            example: "别人一求帮忙就答应，最后把自己压垮。",
+            type: "impulsivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我需要通过身体活动来保持专注。",
+            example: "边走边想问题时反而更清晰。",
+            type: "hyperactivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "因为情绪反应强烈，我很难维持良好的人际关系。",
+            example: "对小误会反应过度，让别人觉得难相处。",
+            type: "impulsivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我难以长时间专注于某项任务或活动。",
+            example: "看书十分钟就开始分心。",
+            type: "inattention",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我难以按计划执行或达成时间目标。",
+            example: "列了计划表，但总是完不成。",
+            type: "executive",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我常常不自觉地踱步、敲打或做重复动作。",
+            example: "开会时不知不觉开始敲笔或轻拍桌面。",
+            type: "hyperactivity",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我经常觉得自己被误解或不被认可。",
+            example: "觉得别人不了解自己的努力或想法。",
+            type: "executive",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+          {
+            text: "我难以维持规律的日常作息。",
+            example: "睡觉、吃饭、工作时间经常不固定。",
+            type: "executive",
+            options: [
+              { text: "从不", value: 0 },
+              { text: "很少", value: 1 },
+              { text: "有时", value: 2 },
+              { text: "经常", value: 3 },
+              { text: "总是", value: 4 },
+            ],
+          },
+        ],
+      };
+
+      // 主应用组件
+      function ADHDComplexTestApp() {
+        const [currentPage, setCurrentPage] = useState("home");
+        const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+        const [answers, setAnswers] = useState([]);
+        const [results, setResults] = useState(null);
+
+        const startTest = () => {
+          setCurrentQuestionIndex(0);
+          setAnswers(new Array(testData.complex.length).fill(null));
+          setCurrentPage("test");
+        };
+
+        const selectAnswer = (value) => {
+          const newAnswers = [...answers];
+          newAnswers[currentQuestionIndex] = value;
+          setAnswers(newAnswers);
+        };
+
+        const nextQuestion = () => {
+          if (currentQuestionIndex < testData.complex.length - 1) {
+            setCurrentQuestionIndex(currentQuestionIndex + 1);
+          }
+        };
+
+        const previousQuestion = () => {
+          if (currentQuestionIndex > 0) {
+            setCurrentQuestionIndex(currentQuestionIndex - 1);
+          }
+        };
+
+        const calculateResults = () => {
+          const questions = testData.complex;
+          let inattentionScore = 0;
+          let hyperactivityScore = 0;
+          let impulsivityScore = 0;
+          let executiveScore = 0;
+
+          questions.forEach((question, index) => {
+            const score = answers[index] || 0;
+            switch (question.type) {
+              case "inattention":
+                inattentionScore += score;
+                break;
+              case "hyperactivity":
+                hyperactivityScore += score;
+                break;
+              case "impulsivity":
+                impulsivityScore += score;
+                break;
+              case "executive":
+                executiveScore += score;
+                break;
+            }
+          });
+
+          const totalScore =
+            inattentionScore +
+            hyperactivityScore +
+            impulsivityScore +
+            executiveScore;
+
+          setResults({
+            total: totalScore,
+            inattention: inattentionScore,
+            hyperactivity: hyperactivityScore,
+            impulsivity: impulsivityScore,
+            executive: executiveScore,
+            maxScore: 240, // 60题 × 4分
+            maxInattentionScore: 60, // 15题 × 4分
+            maxHyperactivityScore: 60, // 15题 × 4分
+            maxImpulsivityScore: 60, // 15题 × 4分
+            maxExecutiveScore: 60, // 15题 × 4分
+          });
+          setCurrentPage("results");
+        };
+
+        const resetTest = () => {
+          setCurrentPage("home");
+          setCurrentQuestionIndex(0);
+          setAnswers([]);
+          setResults(null);
+        };
+
+        if (currentPage === "home") {
+          return <HomePage onStartTest={startTest} />;
+        } else if (currentPage === "test") {
+          return (
+            <TestPage
+              questions={testData.complex}
+              currentQuestionIndex={currentQuestionIndex}
+              answers={answers}
+              onSelectAnswer={selectAnswer}
+              onNextQuestion={nextQuestion}
+              onPreviousQuestion={previousQuestion}
+              onSubmitTest={calculateResults}
+              onBackToHome={resetTest}
+            />
+          );
+        } else {
+          return <ResultsPage results={results} onBackToHome={resetTest} />;
+        }
+      }
+
+      // 主页组件
+      function HomePage({ onStartTest }) {
+        return (
+          <div className="container">
+            <div className="hero-section">
+              <div className="hero-content">
+                <h1 className="hero-title">
+                  ADHD 专业深度测评
+                  <span className="subtitle">60题复杂版本</span>
+                </h1>
+                <p className="hero-description">
+                  基于国际标准临床量表设计的专业ADHD深度评估工具，
+                  从注意力不集中、过度活跃、冲动性和执行功能四个核心维度全面评估您的ADHD症状特征。
+                </p>
+
+                <div className="test-info">
+                  <div className="info-card">
+                    <h3>📊 四维度专业评估</h3>
+                    <p>
+                      • 注意力不集中维度 (15题)
+                      <br />
+                      • 过度活跃维度 (15题)
+                      <br />
+                      • 冲动性维度 (15题)
+                      <br />• 执行功能维度 (15题)
+                    </p>
+                  </div>
+
+                  <div className="info-card">
+                    <h3>⏱️ 测评信息</h3>
+                    <p>
+                      • 题目数量：60道
+                      <br />
+                      • 预估时间：15-20分钟
+                      <br />
+                      • 适用年龄：18岁以上成人
+                      <br />• 评分制度：5级评分
+                    </p>
+                  </div>
+
+                  <div className="info-card">
+                    <h3>🎯 结果分析</h3>
+                    <p>
+                      • 总体ADHD风险评估
+                      <br />
+                      • 四个维度详细分析
+                      <br />
+                      • 可视化雷达图展示
+                      <br />• 专业建议与指导
+                    </p>
+                  </div>
+                </div>
+
+                <button className="btn-primary" onClick={onStartTest}>
+                  开始专业深度测评
+                </button>
+
+                <div className="disclaimer">
+                  <p>
+                    <strong>⚠️ 重要提示：</strong>
+                  </p>
+                  <p>
+                    此测评仅供参考，不能替代专业医学诊断。如有需要，请咨询专业医疗机构。
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      // 测试页面组件
+      function TestPage({
+        questions,
+        currentQuestionIndex,
+        answers,
+        onSelectAnswer,
+        onNextQuestion,
+        onPreviousQuestion,
+        onSubmitTest,
+        onBackToHome,
+      }) {
+        const currentQuestion = questions[currentQuestionIndex];
+        const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+        const isLastQuestion = currentQuestionIndex === questions.length - 1;
+        const allAnswered = answers.every((answer) => answer !== null);
+
+        return (
+          <div className="container">
+            <div className="test-header">
+              <button className="btn-back" onClick={onBackToHome}>
+                ← 返回首页
+              </button>
+              <div className="progress-info">
+                第 {currentQuestionIndex + 1} 题 / 共 {questions.length} 题
+              </div>
+            </div>
+
+            <div className="progress-container">
+              <div className="progress-bar">
+                <div
+                  className="progress-fill"
+                  style={{ width: `${progress}%` }}
+                ></div>
+              </div>
+              <div className="progress-text">{Math.round(progress)}% 完成</div>
+            </div>
+
+            <div className="test-content">
+              <div className="question-card">
+                <div className="question-number">
+                  问题 <span>{currentQuestionIndex + 1}</span>
+                </div>
+                <h2 className="question-text">{currentQuestion.text}</h2>
+                {currentQuestion.example && (
+                  <div className="question-example">
+                    <span className="example-label">💬 例如：</span>
+                    {currentQuestion.example}
+                  </div>
+                )}
+                <div className="answer-options">
+                  {currentQuestion.options.map((option, index) => (
+                    <div
+                      key={index}
+                      className={`answer-option ${
+                        answers[currentQuestionIndex] === option.value
+                          ? "selected"
+                          : ""
+                      }`}
+                      onClick={() => onSelectAnswer(option.value)}
+                    >
+                      <input
+                        type="radio"
+                        name="answer"
+                        value={option.value}
+                        checked={answers[currentQuestionIndex] === option.value}
+                        onChange={() => {}}
+                      />
+                      <label>{option.text}</label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="navigation-buttons">
+                <button
+                  className="btn-secondary"
+                  onClick={onPreviousQuestion}
+                  disabled={currentQuestionIndex === 0}
+                >
+                  上一题
+                </button>
+                {isLastQuestion ? (
+                  <button
+                    className="btn-primary"
+                    onClick={onSubmitTest}
+                    disabled={!allAnswered}
+                  >
+                    查看结果
+                  </button>
+                ) : (
+                  <button
+                    className="btn-primary"
+                    onClick={onNextQuestion}
+                    disabled={answers[currentQuestionIndex] === null}
+                  >
+                    下一题
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      // 结果页面组件
+      function ResultsPage({ results, onBackToHome }) {
+        const [chartInstance, setChartInstance] = useState(null);
+
+        useEffect(() => {
+          createRadarChart();
+          return () => {
+            if (chartInstance) {
+              chartInstance.destroy();
+            }
+          };
+        }, [results]);
+
+        const createRadarChart = () => {
+          const canvas = document.getElementById("radarChart");
+          if (!canvas) return;
+
+          const ctx = canvas.getContext("2d");
+
+          if (chartInstance) {
+            chartInstance.destroy();
+          }
+
+          const data = {
+            labels: ["注意力不集中", "过度活跃", "冲动性", "执行功能障碍"],
+            datasets: [
+              {
+                label: "ADHD维度评估",
+                data: [
+                  (results.inattention / results.maxInattentionScore) * 100,
+                  (results.hyperactivity / results.maxHyperactivityScore) * 100,
+                  (results.impulsivity / results.maxImpulsivityScore) * 100,
+                  (results.executive / results.maxExecutiveScore) * 100,
+                ],
+                backgroundColor: "rgba(113, 70, 221, 0.2)",
+                borderColor: "#7146dd",
+                borderWidth: 2,
+                pointBackgroundColor: "#7146dd",
+                pointBorderColor: "#fff",
+                pointBorderWidth: 2,
+                pointRadius: 6,
+              },
+            ],
+          };
+
+          const config = {
+            type: "radar",
+            data: data,
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                r: {
+                  beginAtZero: true,
+                  max: 100,
+                  ticks: {
+                    stepSize: 20,
+                    callback: function (value) {
+                      return value + "%";
+                    },
+                  },
+                  grid: {
+                    color: "rgba(0,0,0,0.1)",
+                  },
+                  pointLabels: {
+                    font: {
+                      size: 12,
+                      weight: "bold",
+                    },
+                  },
+                },
+              },
+              plugins: {
+                legend: {
+                  display: false,
+                },
+              },
+            },
+          };
+
+          const newChart = new Chart(ctx, config);
+          setChartInstance(newChart);
+        };
+
+        const getRiskLevel = (percentage) => {
+          if (percentage >= 75) return { level: "高风险", class: "high-risk" };
+          if (percentage >= 50)
+            return { level: "中等风险", class: "medium-risk" };
+          if (percentage >= 25) return { level: "轻度风险", class: "low-risk" };
+          return { level: "低风险", class: "minimal-risk" };
+        };
+
+        const totalPercentage = (results.total / results.maxScore) * 100;
+        const overallRisk = getRiskLevel(totalPercentage);
+
+        const dimensionResults = [
+          {
+            name: "注意力不集中",
+            description: "专注力持久性、细节关注能力、任务完成度",
+            score: results.inattention,
+            maxScore: results.maxInattentionScore,
+            percentage:
+              (results.inattention / results.maxInattentionScore) * 100,
+          },
+          {
+            name: "过度活跃",
+            description: "身体活动控制、静坐能力、内在躁动感",
+            score: results.hyperactivity,
+            maxScore: results.maxHyperactivityScore,
+            percentage:
+              (results.hyperactivity / results.maxHyperactivityScore) * 100,
+          },
+          {
+            name: "冲动性",
+            description: "行为抑制能力、情绪控制、决策深思熟虑度",
+            score: results.impulsivity,
+            maxScore: results.maxImpulsivityScore,
+            percentage:
+              (results.impulsivity / results.maxImpulsivityScore) * 100,
+          },
+          {
+            name: "执行功能障碍",
+            description: "计划组织能力、时间管理、任务切换灵活性",
+            score: results.executive,
+            maxScore: results.maxExecutiveScore,
+            percentage: (results.executive / results.maxExecutiveScore) * 100,
+          },
+        ];
+
+        return (
+          <div className="container">
+            <div className="results-header">
+              <button className="btn-back" onClick={onBackToHome}>
+                ← 返回首页
+              </button>
+              <h1>测评结果分析</h1>
+            </div>
+
+            <div className="results-content">
+              <div className="overall-result">
+                <h2>综合评估结果</h2>
+                <div className={`risk-indicator ${overallRisk.class}`}>
+                  <div className="risk-score">
+                    {results.total} / {results.maxScore}
+                  </div>
+                  <div className="risk-percentage">
+                    {totalPercentage.toFixed(1)}%
+                  </div>
+                  <div className="risk-level">{overallRisk.level}</div>
+                </div>
+              </div>
+
+              <div className="radar-chart-container">
+                <h3>四维度雷达图分析</h3>
+                <div className="chart-wrapper">
+                  <canvas id="radarChart"></canvas>
+                </div>
+              </div>
+
+              <div className="dimension-results">
+                <h3>各维度详细分析</h3>
+                {dimensionResults.map((dimension, index) => {
+                  const risk = getRiskLevel(dimension.percentage);
+                  return (
+                    <div key={index} className="dimension-card">
+                      <div className="dimension-header">
+                        <h4>{dimension.name}</h4>
+                        <span className={`dimension-risk ${risk.class}`}>
+                          {risk.level}
+                        </span>
+                      </div>
+                      <p className="dimension-description">
+                        {dimension.description}
+                      </p>
+                      <div className="dimension-score">
+                        <div className="score-bar">
+                          <div
+                            className="score-fill"
+                            style={{ width: `${dimension.percentage}%` }}
+                          ></div>
+                        </div>
+                        <div className="score-text">
+                          {dimension.score} / {dimension.maxScore} (
+                          {dimension.percentage.toFixed(1)}%)
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="interpretation-guide">
+                <h3>结果解释说明</h3>
+                <div className="interpretation-grid">
+                  <div className="interpretation-item">
+                    <h4>🎯 注意力不集中维度</h4>
+                    <p>
+                      评估专注力持久性、对细节的关注能力以及任务完成的一致性。高分表示在维持注意力方面存在明显困难。
+                    </p>
+                  </div>
+                  <div className="interpretation-item">
+                    <h4>⚡ 过度活跃维度</h4>
+                    <p>
+                      测量身体活动的控制能力、静坐耐受性和内在躁动感。高分说明难以控制身体活动和内心的不安感。
+                    </p>
+                  </div>
+                  <div className="interpretation-item">
+                    <h4>🚀 冲动性维度</h4>
+                    <p>
+                      评估行为抑制能力、情绪管理和决策的深思熟虑程度。高分表示行为和情绪控制能力较弱。
+                    </p>
+                  </div>
+                  <div className="interpretation-item">
+                    <h4>🧠 执行功能维度</h4>
+                    <p>
+                      测量计划组织能力、时间管理技能和任务切换的灵活性。高分显示在高级认知功能方面存在困难。
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="recommendations">
+                <h3>专业建议</h3>
+                <div className="recommendation-content">
+                  {totalPercentage >= 60 && (
+                    <div className="recommendation high-priority">
+                      <h4>🔴 强烈建议</h4>
+                      <p>
+                        您的测评结果显示存在较明显的ADHD相关症状。建议尽快咨询专业医疗机构进行进一步评估和诊断。
+                      </p>
+                    </div>
+                  )}
+                  {totalPercentage >= 40 && totalPercentage < 60 && (
+                    <div className="recommendation medium-priority">
+                      <h4>🟡 建议关注</h4>
+                      <p>
+                        您在某些ADHD维度上可能存在一定程度的困难。建议关注相关症状，必要时寻求专业咨询。
+                      </p>
+                    </div>
+                  )}
+                  {totalPercentage < 40 && (
+                    <div className="recommendation low-priority">
+                      <h4>🟢 持续观察</h4>
+                      <p>
+                        您的整体得分相对较低，但仍建议关注日常生活中的相关表现，保持良好的生活习惯。
+                      </p>
+                    </div>
+                  )}
+
+                  <div className="general-recommendations">
+                    <h4>📋 一般性建议</h4>
+                    <ul>
+                      <li>建立规律的作息时间和日常安排</li>
+                      <li>使用提醒工具和时间管理技巧</li>
+                      <li>适度运动有助于改善注意力和情绪调节</li>
+                      <li>寻求家人和朋友的理解与支持</li>
+                      <li>如有需要，不要犹豫寻求专业帮助</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      // 渲染应用
+      ReactDOM.render(<ADHDComplexTestApp />, document.getElementById("root"));
+    </script>
+  </body>
+</html>

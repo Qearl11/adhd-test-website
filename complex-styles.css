@@ -507,7 +507,7 @@ on {
 
   .info-card {
     padding: 18px 15px;
-    margin: 0 40px;
+    margin: 0 15px;
   }
 
   .test-header {
@@ -528,7 +528,7 @@ on {
 
   .question-card {
     padding: 25px 20px;
-    margin: 20px;
+    margin: 20px 5px;
   }
 
   .chart-wrapper {
@@ -561,6 +561,53 @@ on {
 @media (max-width: 480px) {
   .hero-title {
     font-size: 1.8rem;
+  }
+
+  .btn-primary {
+    min-width: 140px !important;
+    white-space: nowrap !important;
+  }
+
+  .score-range {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 3px !important;
+    padding: 12px !important;
+  }
+
+  .score-range .range,
+  .score-range .level {
+    margin: 0 !important;
+    min-width: auto !important;
+    display: inline-block !important;
+  }
+
+  .score-range .desc {
+    margin: 0 !important;
+    font-size: 0.85rem !important;
+    line-height: 1.4 !important;
+    color: #666 !important;
+    margin-top: 3px !important;
+  }
+
+  .radar-chart-container {
+    padding: 25px 10px !important;
+    margin: 20px 0 !important;
+  }
+
+  .chart-wrapper {
+    height: 320px !important;
+    padding: 0 15px !important;
+    margin: 0 auto !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+  }
+
+  .chart-wrapper canvas {
+    max-width: 100% !important;
+    height: auto !important;
   }
 
   .test-header {
