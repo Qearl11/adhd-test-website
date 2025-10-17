@@ -598,8 +598,8 @@ on {
   }
 
   .chart-wrapper {
-    height: 350px !important;
-    padding: 0 8px !important;
+    height: 380px !important;
+    padding: 0 5px !important;
     margin: 0 auto !important;
     max-width: 100% !important;
     overflow: visible !important;
