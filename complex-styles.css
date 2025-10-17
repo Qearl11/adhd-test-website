@@ -494,12 +494,16 @@
     margin: 30px 0;
   }
 
+  .info-card {
+    padding: 20px 15px;
+  }
+
   .test-header {
     max-width: 100%;
     padding: 15px;
-    flex-direction: column;
-    gap: 10px;
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .progress-container {
