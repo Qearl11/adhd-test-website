@@ -43,7 +43,7 @@
 
 .test-info {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 25px;
   margin: 50px 0;
   max-width: 900px;
@@ -51,11 +51,59 @@
   margin-right: auto;
 }
 
+/* 在中等屏幕上调整为两列 */
+@media (max-width: 900px) {
+  .test-info {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 在小屏幕上调整为单列 */
+@media (max-width: 600px) {
+  .test-info {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* 测试页面布局优化 */
 .test-content {
   max-width: 800px;
   margin: 0 auto;
   padding: 0 20px;
+}
+
+/* 测试页面头部布局优化 */
+.test-header {
+  max-width: 750px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 进度条容器居中 */
+.progress-container {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* 进度条样式居中对齐 */
+.progress-bar {
+  flex: 1;
+  max-width: 350px;
+  margin-bottom: 2px;
+}
+
+.progress-text {
+  white-space: nowrap;
+  font-size: 14px;
+  color: #666;
+  margin: 0;
 }
 
 .question-card {
@@ -197,20 +245,32 @@
   position: relative;
 }
 
+/* 强制进度条样式 - 确保正确显示 */
+/* 进度条样式 - 与简单版本保持一致，但适配当前布局 */
 .score-bar {
   width: 100%;
-  height: 12px;
-  background: #f3f4f6;
-  border-radius: 6px;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 4px;
   overflow: hidden;
-  margin-bottom: 8px;
+  margin-top: 8px;
 }
 
 .score-fill {
   height: 100%;
-  background: linear-gradient(90deg, #7146dd 0%, #9f7aea 100%);
-  border-radius: 6px;
-  transition: width 0.8s ease-out;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  border-radius: 4px;
+  transition: width 0.8s ease;
+}
+
+/* 额外确保 - 针对症状分析区域，但不覆盖宽度 */
+.symptom-analysis div.score-bar {
+  background-color: #e5e7eb !important;
+}
+
+.symptom-analysis div.score-fill {
+  background: linear-gradient(135deg, #7146dd 0%, #9f7aea 100%) !important;
+  /* 不设置宽度，让内联样式生效 */
 }
 
 .score-text {
@@ -379,8 +439,39 @@
 
 .info-card p {
   color: #6b7280;
-  line-height: 1.6;
+  line-height: 1.8;
   margin: 0;
+  text-align: left;
+  padding-left: 15px;
+  text-indent: -15px;
+}
+
+.info-card ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.info-card li {
+  color: #6b7280;
+  line-height: 1.8;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.info-card li:before {
+  content: "•";
+  color: #7146dd;
+  font-weight: bold;
+  margin-right: 10px;
+  flex-shrink: 0;
+  width: 10px;
+  text-align: center;
+}
+
+.info-card li:last-child {
+  margin-bottom: 0;
 }
 
 /* 响应式优化 */
@@ -388,40 +479,53 @@
   .container {
     padding: 10px;
   }
-  
+
   .hero-section {
     padding: 20px 10px;
   }
-  
+
   .hero-title {
     font-size: 2rem;
   }
-  
+
   .test-info {
     grid-template-columns: 1fr;
     gap: 20px;
     margin: 30px 0;
   }
-  
+
+  .test-header {
+    max-width: 100%;
+    padding: 15px;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .progress-container {
+    max-width: 100%;
+    padding: 0 15px;
+  }
+
   .question-card {
     padding: 25px 20px;
     margin: 20px 0;
   }
-  
+
   .chart-wrapper {
     height: 300px;
   }
-  
+
   .interpretation-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .dimension-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
-  
+
   .radar-chart-container,
   .interpretation-guide,
   .recommendations,
@@ -429,7 +533,7 @@
     padding: 25px 20px;
     margin: 25px 0;
   }
-  
+
   .results-content {
     padding: 0 10px;
   }
@@ -439,11 +543,11 @@
   .hero-title {
     font-size: 1.8rem;
   }
-  
+
   .question-card {
     padding: 20px 15px;
   }
-  
+
   .radar-chart-container,
   .interpretation-guide,
   .recommendations {
@@ -452,18 +556,29 @@
 }
 
 /* 动画效果 */
-@keyframes scoreAnimation {
-  from {
-    width: 0%;
-  }
-  to {
-    width: var(--target-width);
-  }
+/* 导航按钮样式优化 */
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  padding: 0 20px;
 }
 
-.score-fill {
-  animation: scoreAnimation 1.2s ease-out forwards;
+.button-spacer {
+  flex: 1;
+  min-width: 100px;
 }
+
+.navigation-buttons .btn-primary,
+.navigation-buttons .btn-secondary {
+  min-width: 120px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* 移除冲突的动画规则 */
 
 /* 增强的风险指示器 */
 .risk-indicator {
@@ -479,7 +594,7 @@
 }
 
 .risk-indicator::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
