@@ -751,11 +751,11 @@ on {
 
 /* 结果页面整体美化 */
 .result-card {
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-  border-radius: 24px;
-  padding: 40px;
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.08);
   margin: 20px 0;
+  background: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
 }
 
 .result-level {
@@ -1163,18 +1163,24 @@ on {
   font-weight: 700;
 }
 
+/* 结果页面头部 */
+.result-header {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 10px 20px 5px 20px;
+}
+
 /* 整体内容区域美化 */
 .result-content {
   max-width: 1000px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 5px 20px 20px 20px;
 }
 
 /* 响应式优化 */
 @media (max-width: 768px) {
   .result-card {
-    padding: 25px;
-    margin: 15px 0;
+    margin: 10px 0;
   }
 
   .level-title {
