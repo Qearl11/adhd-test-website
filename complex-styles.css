@@ -345,7 +345,7 @@ on {
   margin: 40px 0;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(113, 70, 221, 0.1);
-  max-width: 800px;
+  /* max-width: 800px; */
   margin-left: auto;
   margin-right: auto;
 }
@@ -738,4 +738,467 @@ on {
   border-radius: 20px;
   background: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 综合评估分数样式 */
+.result-score {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 0px;
+}
+
+/* 结果页面整体美化 */
+.result-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.08);
+  margin: 20px 0;
+}
+
+.result-level {
+  text-align: center;
+  margin: 0;
+  padding: 10px;
+  /* background: white; */
+  border-radius: 20px;
+  /* box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05); */
+  /* border: 1px solid rgba(148, 163, 184, 0.08); */
+}
+
+.level-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 15px;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.level-description {
+  font-size: 1.1rem;
+  color: #64748b;
+  line-height: 1.7;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.score-card {
+  /* background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); */
+  /* color: white; */
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  min-width: 280px;
+  flex: 1;
+  max-width: 400px;
+  /* box-shadow: 0 20px 60px rgba(79, 70, 229, 0.3); */
+  position: relative;
+  overflow: hidden;
+}
+
+.score-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0.3)
+  );
+}
+
+.standardized-score {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%) !important;
+}
+
+.score-label {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.score-main {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.current-score {
+  font-size: 3rem;
+}
+
+.score-separator {
+  margin: 0 8px;
+  opacity: 0.7;
+}
+
+.max-score {
+  opacity: 0.8;
+}
+
+.score-percentage {
+  font-size: 1.2rem;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.score-note {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .result-score {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .score-card {
+    max-width: 100%;
+    padding: 20px;
+  }
+
+  .score-main {
+    font-size: 2rem;
+  }
+
+  .current-score {
+    font-size: 2.5rem;
+  }
+}
+
+/* 症状分析美化 */
+.symptom-analysis {
+  margin: 40px 0;
+}
+
+.symptom-category {
+  background: white;
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  transition: all 0.3s ease;
+}
+
+.symptom-category:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+}
+
+.symptom-category h4 {
+  color: #334155;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.symptom-category h4::before {
+  content: "📊";
+  font-size: 1.1rem;
+}
+
+.symptom-score {
+  margin-bottom: 12px;
+}
+
+.score-display {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #4f46e5;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 详细分析区域美化 */
+.result-details {
+  margin-top: 40px;
+}
+
+.result-details h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 30px;
+  text-align: center;
+  position: relative;
+}
+
+.result-details h3::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  border-radius: 2px;
+}
+
+.score-interpretation {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.score-interpretation h4 {
+  color: #334155;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.score-interpretation h4::before {
+  content: "📋";
+  font-size: 1.1rem;
+}
+
+.radar-chart-container {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.radar-chart-container h4 {
+  color: #334155;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.radar-chart-container h4::before {
+  content: "📈";
+  font-size: 1.1rem;
+}
+
+/* 分数范围美化 */
+.score-ranges {
+  display: grid;
+  gap: 15px;
+  margin: 25px 0;
+}
+
+.score-range {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 25px;
+  border-radius: 12px;
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.score-range.current {
+  background: linear-gradient(135deg, #e0e7ff 0%, #f3f4f6 100%);
+  border-color: #c7d2fe;
+  color: #3730a3;
+  box-shadow: 0 4px 20px rgba(199, 210, 254, 0.4);
+  transform: scale(1.02);
+}
+
+.score-range .range {
+  font-weight: 700;
+  font-size: 1.1rem;
+  min-width: 80px;
+}
+
+.score-range .level {
+  font-weight: 800;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  margin: 0 15px;
+}
+
+.score-range .level.low-risk {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.score-range .level.medium-risk {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.score-range .level.high-risk {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.score-range.current .level {
+  background: rgba(67, 56, 202, 0.15);
+  color: #3730a3;
+}
+
+.score-range .desc {
+  flex: 1;
+  text-align: right;
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.score-range.current .desc {
+  color: #4338ca;
+}
+
+/* 个人化分析美化 */
+.personalized-analysis {
+  border-radius: 16px;
+  padding: 30px;
+  margin: 30px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.personalized-analysis h4 {
+  color: #334155;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.personalized-analysis h4::before {
+  content: "🎯";
+  font-size: 1.1rem;
+}
+
+.highlight {
+  color: #2563eb;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* 推荐建议美化 */
+.recommendations {
+  border-radius: 16px;
+  padding: 30px;
+  margin: 30px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.recommendations h4 {
+  color: #334155;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.recommendations h4::before {
+  content: "💡";
+  font-size: 1.1rem;
+}
+
+.recommendations ul {
+  list-style: none;
+  padding: 0;
+}
+
+.recommendations li {
+  padding: 12px 0;
+  padding-left: 30px;
+  position: relative;
+  color: #374151;
+  line-height: 1.6;
+  border-bottom: 1px solid rgba(34, 197, 94, 0.1);
+}
+
+.recommendations li:last-child {
+  border-bottom: none;
+}
+
+.recommendations li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 12px;
+  color: #22c55e;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.recommendations strong {
+  color: #334155;
+  font-weight: 700;
+}
+
+/* 整体内容区域美化 */
+.result-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 响应式优化 */
+@media (max-width: 768px) {
+  .result-card {
+    padding: 25px;
+    margin: 15px 0;
+  }
+
+  .level-title {
+    font-size: 1.8rem;
+  }
+
+  .score-range {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .score-range .desc {
+    text-align: center;
+  }
+
+  .symptom-category {
+    padding: 20px;
+  }
+
+  .recommendations,
+  .personalized-analysis,
+  .score-interpretation,
+  .radar-chart-container {
+    padding: 20px;
+  }
 }

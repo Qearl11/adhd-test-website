@@ -637,8 +637,24 @@
             executiveScore +
             emotionalScore;
 
+          // 计算标准化总分（各维度百分比的平均值）
+          const inattentionPercentage = (inattentionScore / 28) * 100;
+          const hyperactivityPercentage = (hyperactivityScore / 24) * 100;
+          const impulsivityPercentage = (impulsivityScore / 16) * 100;
+          const executivePercentage = (executiveScore / 48) * 100;
+          const emotionalPercentage = (emotionalScore / 52) * 100;
+
+          const standardizedTotalScore =
+            (inattentionPercentage +
+              hyperactivityPercentage +
+              impulsivityPercentage +
+              executivePercentage +
+              emotionalPercentage) /
+            5;
+
           setResults({
             total: totalScore,
+            standardizedTotal: standardizedTotalScore,
             inattention: inattentionScore,
             hyperactivity: hyperactivityScore,
             impulsivity: impulsivityScore,
@@ -970,10 +986,15 @@
 
         // 计算分析结果
         const totalPercentage = (results.total / results.maxScore) * 100;
-        const analysis = getComplexResultAnalysis(results, totalPercentage);
+        const standardizedPercentage = results.standardizedTotal;
+        const analysis = getComplexResultAnalysis(
+          results,
+          standardizedPercentage
+        );
         const scoreInterpretation = getComplexScoreInterpretation(
           results.total,
-          results.maxScore
+          results.maxScore,
+          results.standardizedTotal
         );
         const personalizedAnalysis = getComplexPersonalizedAnalysis(results);
 
@@ -1036,12 +1057,11 @@
                     <div className="score-card">
                       <div className="score-label">测试总分</div>
                       <div className="score-main">
-                        <span className="current-score">{results.total}</span>
+                        <span className="current-score">
+                          {Math.round(results.standardizedTotal)}
+                        </span>
                         <span className="score-separator">/</span>
-                        <span className="max-score">{results.maxScore}</span>
-                      </div>
-                      <div className="score-percentage">
-                        {Math.round(totalPercentage)}%
+                        <span className="max-score">100</span>
                       </div>
                     </div>
                   </div>
@@ -1082,7 +1102,7 @@
                             <h4>{dimension.name}</h4>
                             <div className="symptom-score">
                               <span className="score-display">
-                                {dimension.score} / {dimension.maxScore} 分
+                                {Math.round(dimension.percentage)}%
                               </span>
                             </div>
                             <div className="score-bar">
@@ -1147,8 +1167,8 @@
       }
 
       // 复杂版分析函数
-      function getComplexResultAnalysis(results, totalPercentage) {
-        if (totalPercentage <= 30) {
+      function getComplexResultAnalysis(results, standardizedPercentage) {
+        if (standardizedPercentage <= 30) {
           return {
             level: "低风险",
             description:
@@ -1163,7 +1183,7 @@
               </ul>
             `,
           };
-        } else if (totalPercentage <= 60) {
+        } else if (standardizedPercentage <= 60) {
           return {
             level: "中等风险",
             description:
@@ -1201,40 +1221,36 @@
         }
       }
 
-      function getComplexScoreInterpretation(total, maxScore) {
+      function getComplexScoreInterpretation(
+        total,
+        maxScore,
+        standardizedTotal
+      ) {
         const percentage = Math.round((total / maxScore) * 100);
+        const standardizedPercentage = Math.round(standardizedTotal);
 
-        let interpretation = `<p><strong>您的总分为 ${total} 分（满分 ${maxScore} 分），占总分的 ${percentage}%</strong></p>`;
+        let interpretation = `<p><strong>综合评估分数为 ${standardizedPercentage} 分，基于各维度标准化计算</strong></p>`;
 
         interpretation += `
           <div class="score-ranges">
             <div class="score-range ${
-              total <= Math.round(maxScore * 0.3) ? "current" : ""
+              standardizedTotal <= 30 ? "current" : ""
             }">
-              <span class="range">0-${Math.round(maxScore * 0.3)}分</span>
+              <span class="range">0-30分</span>
               <span class="level low-risk">低风险</span>
-              <span class="desc">症状轻微，ADHD可能性较低</span>
+              <span class="desc">日常轻微分心或偶尔拖延，属于常见范围。</span>
             </div>
             <div class="score-range ${
-              total > Math.round(maxScore * 0.3) &&
-              total <= Math.round(maxScore * 0.6)
-                ? "current"
-                : ""
+              standardizedTotal > 30 && standardizedTotal <= 60 ? "current" : ""
             }">
-              <span class="range">${
-                Math.round(maxScore * 0.3) + 1
-              }-${Math.round(maxScore * 0.6)}分</span>
+              <span class="range">31-60分</span>
               <span class="level medium-risk">中等风险</span>
-              <span class="desc">存在明显症状，建议专业评估</span>
+              <span class="desc">存在明显症状，建议专业评估。</span>
             </div>
-            <div class="score-range ${
-              total > Math.round(maxScore * 0.6) ? "current" : ""
-            }">
-              <span class="range">${
-                Math.round(maxScore * 0.6) + 1
-              }-${maxScore}分</span>
+            <div class="score-range ${standardizedTotal > 60 ? "current" : ""}">
+              <span class="range">61-100分</span>
               <span class="level high-risk">高风险</span>
-              <span class="desc">症状显著，强烈建议就医</span>
+              <span class="desc">症状显著，强烈建议进一步咨询专业人士。</span>
             </div>
           </div>
         `;
@@ -1309,7 +1325,7 @@
         }
 
         // 功能影响评估
-        const totalPercentage = (results.total / results.maxScore) * 100;
+        const totalPercentage = results.standardizedTotal;
         if (totalPercentage > 60) {
           analysis.push(
             `这些症状很可能已经对您的工作、学习或人际关系造成了<span class="highlight">显著影响</span>，建议寻求专业支持。`

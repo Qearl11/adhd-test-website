@@ -351,13 +351,13 @@ body {
 }
 
 .score-card {
-  background: white !important;
+  /* background: white !important; */
   border: none !important;
   border-radius: 24px;
   padding: 40px 45px;
   text-align: center;
   color: #2d3748 !important;
-  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.1) !important;
+  /* box-shadow: 0 20px 40px rgba(99, 102, 241, 0.1) !important; */
   max-width: 420px;
   margin: 0 auto;
   position: relative;
@@ -371,11 +371,11 @@ body {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(
+  /* background: radial-gradient(
     circle,
     rgba(79, 209, 199, 0.1) 0%,
     transparent 70%
-  );
+  ); */
   transform: rotate(45deg);
   pointer-events: none;
 }
@@ -450,7 +450,7 @@ body {
   margin-bottom: 40px;
   padding: 30px;
   border-radius: 15px;
-  background: linear-gradient(135deg, #f7fafc, #edf2f7);
+  /* background: linear-gradient(135deg, #f7fafc, #edf2f7); */
 }
 
 .level-title {
@@ -658,7 +658,7 @@ body {
 .symptom-interpretation {
   margin-top: 10px;
   padding: 15px;
-  background: #f7fafc;
+  /* background: #f7fafc; */
   border-radius: 8px;
   font-size: 0.95rem;
   line-height: 1.5;
@@ -667,9 +667,10 @@ body {
 
 .personalized-analysis {
   padding: 25px;
-  background: linear-gradient(135deg, #fef5e7, #fed7aa);
+  /* background: linear-gradient(135deg, #fef5e7, #fed7aa); */
+  background: #ffffff;
   border-radius: 12px;
-  border-left: 4px solid #f6ad55;
+  /* border-left: 4px solid #f6ad55; */
   margin-bottom: 25px;
 }
 
@@ -686,11 +687,11 @@ body {
 }
 
 .personalized-content .highlight {
-  background: #fed7aa;
+  /* background: #fed7aa; */
   padding: 2px 6px;
   border-radius: 4px;
   font-weight: 600;
-  color: #c05621;
+  color: #de6c34;
 }
 
 .recommendation-content {
