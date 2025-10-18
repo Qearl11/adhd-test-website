@@ -598,7 +598,7 @@ on {
   }
 
   .chart-wrapper {
-    height: 380px !important;
+    height: 280px !important;
     padding: 0 5px !important;
     margin: 0 auto !important;
     max-width: 100% !important;
@@ -1206,5 +1206,19 @@ on {
   .score-interpretation,
   .radar-chart-container {
     padding: 20px;
+  }
+
+  .radar-chart-container h4 {
+    margin-bottom: 5px;
+  }
+
+  .chart-wrapper {
+    margin: 10px 0 !important;
+  }
+
+  .chart-description {
+    margin-top: 5px !important;
+    margin-bottom: 0 !important;
+    padding: 0 15px !important;
   }
 }
